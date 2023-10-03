@@ -65,10 +65,11 @@ echo -e "[ ${green}INFO$NC ] Downloading & Installing xray core"
 domainSock_dir="/run/xray";! [ -d $domainSock_dir ] && mkdir  $domainSock_dir
 chown www-data.www-data $domainSock_dir
 # # Make Folder XRay
-mkdir -p /etc/{bot,xray,vmess,websocket,vless,trojan,shadowsocks}
+mkdir -p /etc/{xray,vmess,websocket,vless,trojan,shadowsocks}
 mkdir -p /var/log/xray
 mkdir -p /etc/xray
 mkdir -p /etc/geostore/
+mkdir -p /etc/bot
 chown www-data.www-data /var/log/xray
 chmod +x /var/log/xray
 touch /var/log/xray/access.log
