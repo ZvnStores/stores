@@ -1,6 +1,6 @@
 #!/bin/bash
 # ====================
-IPVPES="https://raw.githubusercontent.com/FadlyNotNot/permission/main/ip"
+IPVPES="https://raw.githubusercontent.com/ZvnStores/izin/main/ip"
 clear
 ipsaya=$(wget -qO- ipinfo.io/ip)
 data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
