@@ -10,35 +10,32 @@ else
 domain=$IP
 fi
 PUB=$( cat /etc/slowdns/server.pub )
-NS=`cat /etc/xray/dns`
+NS=(cat /etc/xray/dns)
 
 tls="$(cat ~/log-install.txt | grep -w "Vless TLS" | cut -d: -f2|sed 's/ //g')"
 none="$(cat ~/log-install.txt | grep -w "Vless none TLS" | cut -d: -f2|sed 's/ //g')"
 until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${CLIENT_EXISTS} == '0' ]]; do
-echo -e " \033[31m##########\033[33m##########\033[32m##########\033[34m##########\033[35m##########\033[36m##########\e[0m"
-echo -e " \033[31m╭══════════════════════════════════════════════════════════╮\e[0m"
-echo -e " \033[34m│$NC\033[33m                   Vless ACCOUNT                          $NC\033[34m│\e[0m"
-echo -e " \033[33m╰══════════════════════════════════════════════════════════╯\e[0m"
-
+            echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+            echo -e "\033[1;93m            Vmess Account                 \e[0m"
+            echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 		read -rp "User: " -e user
 		CLIENT_EXISTS=$(grep -w $user /etc/xray/config.json | wc -l)
 
 		if [[ ${CLIENT_EXISTS} == '1' ]]; then
 clear
-            echo -e " \033[33m╭══════════════════════════════════════════════════════════╮\e[0m"
-            echo -e " \033[32m│$NC\033[33m                   Vless ACCOUNT                          $NC\033[32m│\e[0m"
-            echo -e " \033[35m╰══════════════════════════════════════════════════════════╯\e[0m"
+            echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+            echo -e "\033[1;93m            Vmess Account                 \e[0m"
+            echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 			echo ""
 			echo "A client with the specified name was already created, please choose another name."
 			echo ""
-			echo -e "\033[31m##########\033[33m##########\033[32m##########\033[34m##########\033[35m##########\033[36m##########\e[0m"
-			read -n 1 -s -r -p "Press any key to back on menu"
+		        read -n 1 -s -r -p "Press any key to back on menu"
 			menu
 		fi
 	done
 
-read -p "Bug Address (Example: www.google.com) : " address
-read -p "Bug SNI/Host (Example : m.facebook.com) : " hst
+#read -p "Bug Address (Example: www.google.com) : " address
+#read -p "Bug SNI/Host (Example : m.facebook.com) : " hst
 bug_addr=${address}.
 bug_addr2=${address}
 if [[ $address == "" ]]; then
@@ -658,19 +655,14 @@ echo -e "\E[44;1;39m        Vless Account        \E[0m" | tee -a /etc/log-create
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
 echo -e "Remarks        : ${user}" | tee -a /etc/log-create-user.log
 echo -e "Domain         : ${domain}" | tee -a /etc/log-create-user.log
-echo -e "Host XrayDNS   : ${NS}" | tee -a /etc/log-create-user.log
-echo -e "Pub Key        : ${PUB}" | tee -a /etc/log-create-user.log
+#echo -e "Host XrayDNS   : ${NS}" | tee -a /etc/log-create-user.log
+#echo -e "Pub Key        : ${PUB}" | tee -a /etc/log-create-user.log
 echo -e "User Quota     : ${Quota} GB" | tee -a /etc/log-create-user.log
 echo -e "Limit IP       : ${iplim} IP" | tee -a /etc/log-create-user.log
-echo -e "Wildcard       : (bug.com).${domain}" | tee -a /etc/log-create-user.log
+#echo -e "Wildcard       : (bug.com).${domain}" | tee -a /etc/log-create-user.log
 echo -e "Port TLS       : $tls" | tee -a /etc/log-create-user.log
 echo -e "Port none TLS  : 80" | tee -a /etc/log-create-user.log
 echo -e "Port Grpc      : $tls" | tee -a /etc/log-create-user.log
-echo -e "OpenClash Ws   : 443" | tee -a /etc/log-create-user.log
-echo -e "OpenClash No Ws: 80" | tee -a /etc/log-create-user.log
-echo -e "CDN TLS        : 443" | tee -a /etc/log-create-user.log
-echo -e "CDN No TLS     : 80" | tee -a /etc/log-create-user.log
-echo -e "CDN Grpc       : 443" | tee -a /etc/log-create-user.log
 echo -e "id             : ${uuid}" | tee -a /etc/log-create-user.log
 echo -e "Encryption     : none" | tee -a /etc/log-create-user.log
 echo -e "Network        : ws" | tee -a /etc/log-create-user.log
@@ -682,20 +674,20 @@ echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━�
 echo -e "Link none TLS  : ${vlesslink2}" | tee -a /etc/log-create-user.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
 echo -e "Link gRPC      : ${vlesslink3}" | tee -a /etc/log-create-user.log
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
-echo -e "Yaml Clash Ws  : http://${IP}:81/$user-VlessTLS.yaml"
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
-echo -e "Yaml Clash No Ws: http://${IP}:81/$user-VlessNTLS.yaml"
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
-echo -e "CDN TLS        : http://${IP}:81/$user-VlessTLSCDN.yaml"
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
-echo -e "CDN No TLS     : http://${IP}:81/$user-VlessNTLSCDN.yaml"
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
-echo -e "CDN GRPC       : http://${IP}:81/$user-VlessGrpcCDN.yaml"
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
-echo -e "Link Fersi Lengkap   : https://${domain}:81/vless-$user.txt"
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
-echo -e "Link Via Qris  :https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${vlesslink1}"
+#echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+#echo -e "Yaml Clash Ws  : http://${IP}:81/$user-VlessTLS.yaml"
+#echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+#echo -e "Yaml Clash No Ws: http://${IP}:81/$user-VlessNTLS.yaml"
+#echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+#echo -e "CDN TLS        : http://${IP}:81/$user-VlessTLSCDN.yaml"
+#echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+#echo -e "CDN No TLS     : http://${IP}:81/$user-VlessNTLSCDN.yaml"
+#echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+#echo -e "CDN GRPC       : http://${IP}:81/$user-VlessGrpcCDN.yaml"
+#echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+#echo -e "Link Fersi Lengkap   : https://${domain}:81/vless-$user.txt"
+#echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+#echo -e "Link Via Qris  :https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${vlesslink1}"
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
 echo -e "Expired On     : $exp" | tee -a /etc/log-create-user.log
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
