@@ -89,22 +89,22 @@ echo -e "Masa Aktif  : $pup Menit" | tee -a /etc/log-create-user.log
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
 echo -e "\E[40;1;37m         𝗦𝗘𝗥𝗩𝗘𝗥 𝗜𝗡𝗙𝗢𝗥𝗠𝗔𝗧𝗜𝗢𝗡      \E[0m" | tee -a /etc/log-create-user.log
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
-echo -e "IP          : $IP" | tee -a /etc/log-create-user.log
+echo -e "IP VPS      : $IP" | tee -a /etc/log-create-user.log
 echo -e "Host        : $(cat /etc/xray/domain)" | tee -a /etc/log-create-user.log
 echo -e "Nameserver  : $sldomain" | tee -a /etc/log-create-user.log
 echo -e "PubKey      : $slkey" | tee -a /etc/log-create-user.log
 echo -e "Port OpenSSH : 22" | tee -a /etc/log-create-user.log
 echo -e "Port Ws NTLS : 80" | tee -a /etc/log-create-user.log
 echo -e "Port Ws TLS  : 443" | tee -a /etc/log-create-user.log
-echo -e "Port SSL/TLS   : 447 , 777" | tee -a /etc/log-create-user.log
-echo -e "Port SlowDNS   : 53,5300,443" 
-echo -e "Port UDGPW    : 7100, 7200, 7300" | tee -a /etc/log-create-user.log
-echo -e "Port UDP SSH  : 1-65535" | tee -a /etc/log-create-user.log
+echo -e "Port SSL/TLS : 447 , 777" | tee -a /etc/log-create-user.log
+echo -e "Port SlowDNS : 53,5300,443" 
+echo -e "Port UDGPW   : 7100, 7200, 7300" | tee -a /etc/log-create-user.log
+echo -e "Port SSH UDP : 1-65535" | tee -a /etc/log-create-user.log
 #echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
 #echo -e "OpenVPN Config : http://$IP:81/" | tee -a /etc/log-create-user.log
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
-echo -e "Expired On     : $exp" | tee -a /etc/log-create-user.log
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+#echo -e "Expired On     : $exp" | tee -a /etc/log-create-user.log
+#echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
 echo -e "Payload Websocket : " | tee -a /etc/log-create-user.log
 echo -e "GET wss://[host]/ [protocol][crlf]Host: [host][crlf]Upgrade: websocket[crlf][crlf]" | tee -a /etc/log-create-user.log
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
