@@ -1,6 +1,7 @@
 #!/bin/bash
-res1(){
+
 zheevpn="https://raw.githubusercontent.com/ZvnStores/stores/main/"
+res1(){
 cd /usr/bin
 wget -q -O /usr/bin/usernew "${zheevpn}ssh/usernew.sh"
 wget -q -O /usr/bin/auto-reboot "${zheevpn}menu/auto-reboot.sh"
@@ -30,7 +31,7 @@ wget -q -O /usr/bin/trialtrojan "${zheevpn}xray/trialtrojan.sh"
 wget -q -O /usr/bin/renew-tr "${zheevpn}xray/renew-tr.sh"
 wget -q -O /usr/bin/add-ws "${zheevpn}xray/addws.sh"
 wget -q -O /usr/bin/del-ws "${zheevpn}xray/del-ws.sh"
-wget -q -O /usr/bin/cek-ws "${zheevpn}xray/cek-ws.sh"
+wget -q -O /usr/bin/cek-ws "https://raw.githubusercontent.com/bringas-tunnel/v5/main/xray/cek-ws.sh"
 wget -q -O /usr/bin/renew-ws "${zheevpn}xray/renew-ws.sh"
 wget -q -O /usr/bin/trialvmess "${zheevpn}xray/trialvmess.sh"
 wget -q -O /usr/bin/add-vless "${zheevpn}xray/add-vless.sh"
