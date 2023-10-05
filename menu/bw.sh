@@ -3,10 +3,10 @@ MYIP=$(wget -qO- ipinfo.io/ip);
 echo "Checking VPS"
 
 clear 
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "\E[40;1;37m      • BANDWITH MONITOR •         \E[0m"
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "" 
+echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
+echo -e "                BANWITH MENU           "
+echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m" 
 echo -e " [\e[36m•1\e[0m] Lihat Total Bandwith Tersisa"
 echo -e " [\e[36m•2\e[0m] Tabel Penggunaan Setiap 5 Menit"
 echo -e " [\e[36m•3\e[0m] Tabel Penggunaan Setiap Jam"
@@ -19,9 +19,7 @@ echo -e " [\e[36m•9\e[0m] Lihat Penggunaan Aktif Saat Ini"
 echo -e " [\e[36m10\e[0m] Lihat Trafik Penggunaan Aktif Saat Ini [5s]"
 echo -e "" 
 echo -e " [\e[31m•0\e[0m] \e[31mBACK TO MENU\033[0m"
-echo -e " [\e[31m•x\e[0m] Keluar"
-echo -e "" 
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
 echo -e ""
 read -p " Select menu : " opt
 echo -e ""
@@ -184,20 +182,8 @@ echo -e ""
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e ""
 read -n 1 -s -r -p "Press any key to back on menu"
-bw
-;;
-
-0)
-sleep 1
-menu
-;;
-x)
-exit
-;;
-*)
-echo -e ""
-echo -e "Anda salah tekan"
-sleep 1
-bw
-;;
+bw ;;
+0) menu ;;
+x) exit ;;
+*) sleep 1 ; bw ;;
 esac
