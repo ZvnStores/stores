@@ -19,6 +19,7 @@ color3='\e[0m'
 BICyan='\033[1;96m'
 BIYellow='\033[1;93m'
 fvs="\e[1;97;101m"
+BIRed='\033[1;91m'        # Red
 # Getting
 # IP Validation
 dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
@@ -265,7 +266,7 @@ fi
 if [[ $UdpSSH == "running" ]]; then 
    status_udp="Online"
 else
-   status_udp="Offline"
+   status_udp="${BIRed}Offline${NC}"
 fi
 
 
@@ -308,13 +309,13 @@ echo -e ""
 echo -e "${BICyan} ╭═════════════════════════════════════════════════════╮${NC}"
 echo -e "${BICyan} │${fvs}                  SCRIPT BY FV STORE                 \e[0m${BICyan}│"
 echo -e "${BICyan} ╰═════════════════════════════════════════════════════╯${NC}"
-echo -e "${BICyan} │   Hostname    : ${BIYellow} $HOSTNAME ${NC}"
-echo -e "${BICyan} │   Cpu Usage   : ${BIYellow} $cpu_usage ${NC}"
-echo -e "${BICyan} │   Total RAM   : ${BIYellow} ${totalram} / $uram MB ${NC}"
-echo -e "${BICyan} │   IP VPS      : ${BIYellow} $MYIP ${NC}"
-echo -e "${BICyan} │   Domain      : ${BIYellow} $Domen ${NC}"
-echo -e "${BICyan} │   User Script : ${BIYellow} $Name ${NC}"
-echo -e "${BICyan} │   Exp Script  : ${BIYellow} $Exp ( $Exp2 ) ${NC}"
+echo -e "${BICyan}  │   Hostname    : ${BIYellow} $HOSTNAME ${NC}"
+echo -e "${BICyan}  │   Cpu Usage   : ${BIYellow} $cpu_usage ${NC}"
+echo -e "${BICyan}  │   Total RAM   : ${BIYellow} ${totalram} / $uram MB ${NC}"
+echo -e "${BICyan}  │   IP VPS      : ${BIYellow} $MYIP ${NC}"
+echo -e "${BICyan}  │   Domain      : ${BIYellow} $Domen ${NC}"
+echo -e "${BICyan}  │   User Script : ${BIYellow} $Name ${NC}"
+echo -e "${BICyan}  │   Exp Script  : ${BIYellow} $Exp ${NC}"
 echo -e "${BICyan} ╭═════════════════════════════════════════════════════╮${NC}"
 echo -e "${BICyan} │${fvs}                    SERVICE STATUS                   \e[0m${BICyan}│"
 echo -e "${BICyan} ╰═════════════════════════════════════════════════════╯${NC}"
