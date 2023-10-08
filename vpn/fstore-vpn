@@ -78,6 +78,7 @@ fi
 clear
 apt update -y
 apt upgrade -y
+apt install -y neofetch 
 clear
 red='\e[1;31m'
 green='\e[0;32m'
@@ -138,6 +139,7 @@ sleep 1
 echo -e "[ ${tyblue}NOTES${NC} ] My Telegram : t.me/fv_stores" | lolcat
 sleep 1
 echo -e "[ ${tyblue}NOTES${NC} ] Menyiapkan Penginstallan . . . ⏳"
+clear
 else
 echo -e "[ ${green}INFO${NC} ] Oke installed"
 fi
@@ -295,7 +297,7 @@ fi
 fi
 mesg n || true
 clear
-menu
+neofetch 
 END
 chmod 644 /root/.profile
 if [ -f "/root/log-install.txt" ]; then
@@ -326,7 +328,7 @@ echo ""
 echo "   >>> Service & Port"  | tee -a log-install.txt
 echo "   - OpenVPN		: 2086"  | tee -a log-install.txt
 echo "   - OpenSSH		: 22"  | tee -a log-install.txt
-echo "   - SSH Websocket	: 80 [ON]" | tee -a log-install.txt
+echo "   - SSH Websocket	: 80" | tee -a log-install.txt
 echo "   - SSH SSL Websocket	: 443" | tee -a log-install.txt
 echo "   - Stunnel4		: 8880, 8443" | tee -a log-install.txt
 echo "   - Dropbear		: 109, 143" | tee -a log-install.txt
