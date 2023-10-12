@@ -3,11 +3,17 @@
 REPO="https://raw.githubusercontent.com/ZvnStores/stores/main/"
 cd
 
+# Install Non TLS & NTLS
+wget ${REPO}sshws/nontls.sh && chmod +x nontls.sh && ./nontls
+wget ${REPO}sshws/ntls.sh && chmod +x ntls.sh && ./ntls
+rm -rf ntls.sh
+rm -rf nontls.sh
+
 #Install Script Websocket-SSH Python
 wget -O /usr/local/bin/ws-openssh ${REPO}sshws/openssh-socket.py
 wget -O /usr/local/bin/ws-dropbear ${REPO}sshws/dropbear-ws.py
 wget -O /usr/local/bin/ws-stunnel ${REPO}sshws/ws-stunnel
-wget -O /usr/local/bin/ws-ovpn https://raw.githubusercontent.com/Tarap-Kuhing/tarong/main/tarong/OPENVPN/ws-ovpn
+#wget -O /usr/local/bin/ws-ovpn https://raw.githubusercontent.com/Tarap-Kuhing/tarong/main/tarong/OPENVPN/ws-ovpn
 
 #izin permision
 #chmod +x /usr/local/bin/ws-openssh
@@ -29,7 +35,6 @@ wget -O /etc/systemd/system/ws-stunnel.service ${REPO}sshws/ws-stunnel.service &
 wget -O /etc/systemd/system/ws-ovpn.service https://raw.githubusercontent.com/Tarap-Kuhing/tarong/main/tarong/OPENVPN/ws-ovpn.service && chmod +x /etc/systemd/system/ws-ovpn.service
 
 #restart service
-#
 systemctl daemon-reload
 #Enable & Start & Restart ws-openssh service
 #systemctl enable ws-openssh.service
