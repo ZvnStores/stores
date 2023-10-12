@@ -26,8 +26,6 @@ checking_sc() {
 checking_sc
 clear
 date
-echo ""
-domain=$(cat /root/domain)
 sleep 0.5
 mkdir -p /etc/xray 
 echo -e "[ ${green}INFO${NC} ] Checking... "
@@ -87,26 +85,22 @@ touch /etc/shadowsocks/.shadowsocks.db
 # / / Ambil Xray Core Version Terbaru
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.6.1
 
-## crt xray
-systemctl stop nginx
-mkdir /root/.acme.sh
-curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
-chmod +x /root/.acme.sh/acme.sh
-/root/.acme.sh/acme.sh --upgrade --auto-upgrade
-/root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
-~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
-
-# nginx renew ssl
-echo -n '#!/bin/bash
-/etc/init.d/nginx stop
-"/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh" &> /root/renew_ssl.log
-/etc/init.d/nginx start
-/etc/init.d/nginx status
-' > /usr/local/bin/ssl_renew.sh
-chmod +x /usr/local/bin/ssl_renew.sh
-if ! grep -q 'ssl_renew.sh' /var/spool/cron/crontabs/root;then (crontab -l;echo "15 03 */3 * * /usr/local/bin/ssl_renew.sh") | crontab;fi
-
+# // Pasang SSL Pd Domain
+    rm -rf /etc/xray/xray.key
+    rm -rf /etc/xray/xray.crt
+    domain=$(cat /root/domain)
+    STOPWEBSERVER=$(lsof -i:80 | cut -d' ' -f1 | awk 'NR==2 {print $1}')
+    rm -rf /root/.acme.sh
+    mkdir /root/.acme.sh
+    systemctl stop $STOPWEBSERVER
+    systemctl stop nginx
+    curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
+    chmod +x /root/.acme.sh/acme.sh
+    /root/.acme.sh/acme.sh --upgrade --auto-upgrade
+    /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
+    /root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
+    ~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
+    chmod 777 /etc/xray/xray.key
 
 # make folder xray
 rm -rf /etc/vmess/.vmess.db
@@ -583,7 +577,6 @@ systemctl enable runn
 systemctl restart runn
 
 cd /usr/bin/
-# vmess
 # vmess
 echo -e "${Green}[ INFO ]${NC} ${Green}Downloading Main Vmess${NC}"
 wget -O add-ws "${REPO}xray/addws.sh" && chmod +x add-ws
