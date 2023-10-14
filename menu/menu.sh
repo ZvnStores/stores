@@ -26,57 +26,43 @@ checking_sc() {
 checking_sc
 clear
 
-BURIQ () {
-    curl -sS ${IPVPES} > /root/tmp
-    data=( `cat /root/tmp | grep -E "^### " | awk '{print $2}'` )
-    for user in "${data[@]}"
-    do
-    exp=( `grep -E "^### $user" "/root/tmp" | awk '{print $3}'` )
-    d1=(`date -d "$exp" +%s`)
-    d2=(`date -d "$biji" +%s`)
-    exp2=$(( (d1 - d2) / 86400 ))
-    if [[ "$exp2" -le "0" ]]; then
-    echo $user > /etc/.$user.ini
-    else
-    rm -f  /etc/.$user.ini > /dev/null 2>&1
-    fi
-    done
-    rm -f  /root/tmp
+# USERNAME
+rm -f /usr/bin/user
+username=$(curl https://raw.githubusercontent.com/ZvnStores/izin/main/ip | grep $MYIP | awk '{print $2}')
+echo "$username" >/usr/bin/user
+# validity
+rm -f /usr/bin/e
+valid=$(curl https://raw.githubusercontent.com/ZvnStores/izin/main/ip | grep $MYIP | awk '{print $3}')
+echo "$valid" >/usr/bin/e
+# DETAIL ORDER
+username=$(cat /usr/bin/user)
+oid=$(cat /usr/bin/ver)
+exp=$(cat /usr/bin/e)
+clear
+# CERTIFICATE STATUS
+d1=$(date -d "$valid" +%s)
+d2=$(date -d "$today" +%s)
+certifacate=$(((d1 - d2) / 86400))
+# VPS Information
+DATE=$(date +'%Y-%m-%d')
+datediff() {
+    d1=$(date -d "$1" +%s)
+    d2=$(date -d "$2" +%s)
+    echo -e "$COLOR1 $NC Expiry In   : $(( (d1 - d2) / 86400 )) Days"
 }
-MYIP=$(curl -sS ipv4.icanhazip.com)
-Name=$(curl -sS ${IPVPES} | grep $MYIP | awk '{print $2}')
-echo $Name > /usr/local/etc/.$Name.ini
-CekOne=$(cat /usr/local/etc/.$Name.ini)
+mai="datediff "$Exp" "$DATE""
 
-Bloman () {
-if [ -f "/etc/.$Name.ini" ]; then
-CekTwo=$(cat /etc/.$Name.ini)
-    if [ "$CekOne" = "$CekTwo" ]; then
-        res="Expired"
-    fi
+# Status ExpiRED Active
+Info="(${green}Active${NC})"
+Error="(${RED}ExpiRED${NC})"
+today=`date -d "0 days" +"%Y-%m-%d"`
+Exp1=$(curl https://raw.githubusercontent.com/ZvnStores/izin/main/ip | grep $MYIP | awk '{print $3}')
+if [[ $today < $Exp1 ]]; then
+sts="${Info}"
 else
-res="Permission Accepted..."
+sts="${Error}"
 fi
-}
-
-PERMISSION () {
-    MYIP=$(curl -sS ipv4.icanhazip.com)
-    IZIN=$(curl -sS ${IPVPES} | awk '{print $4}' | grep $MYIP)
-    if [ "$MYIP" = "$IZIN" ]; then
-    Bloman
-    else
-    res="Permission Denied!"
-    fi
-    BURIQ
-}
-
-PERMISSION
-if [ "$res" = "Expired" ]; then
-Exp="\e[36mExpired\033[0m"
-rm -f /home/needupdate > /dev/null 2>&1
-else
-Exp=$(curl -sS ${IPVPES} | grep $MYIP | awk '{print $3}')
-fi
+clear
 
 # =========================================
 vlx=$(grep -c -E "^#& " "/etc/xray/config.json")
@@ -97,6 +83,8 @@ BIBlack='\033[1;90m'      # Black
 BIRed='\033[1;91m'        # Red
 BIGreen='\033[1;92m'      # Green
 BIYellow='\033[1;93m'     # Yellow
+y='\033[1;33m'            # Yellow
+g="\033[1;92m"            # Green
 BIBlue='\033[1;94m'       # Blue
 BIPurple='\033[1;95m'     # Purple
 BICyan='\033[1;96m'       # Cyan
@@ -127,6 +115,7 @@ umon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $6" "substr ($
 tmon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $9" "substr ($10, 1, 1)}')"
 clear
 
+SerOn=$(uptime -p | cut -d " " -f 2-10000)
 ###########- END COLOR CODE -##########
 tram=$( free -h | awk 'NR==2 {print $2}' )
 uram=$( free -h | awk 'NR==2 {print $3}' )
@@ -275,40 +264,36 @@ export pak=$( cat /home/.ver)
 IPVPS=$(curl -s ipinfo.io/ip )
 fvs="\e[1;97;101m"
 clear
-echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e " ${BICyan}│${fvs}                  SCRIPT BY FV STORE                 \e[0m${BICyan}│"
-echo -e "${BICyan} └─────────────────────────────────────────────────────┘${NC}"
-echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "${BICyan} │  ${BICyan}OS        :  ${BIYellow}$( cat /etc/os-release | grep -w PRETTY_NAME | sed 's/PRETTY_NAME//g' | sed 's/=//g' | sed 's/"//g' ) ( $( uname -m) )${NC}"
-echo -e "${BICyan} │  ${BICyan}CPU       :  ${BIYellow}$cpu_usage${NC}"
-echo -e "${BICyan} │  ${BICyan}NS        :  ${BIYellow}$(cat /root/nsdomain)${NC}"
-echo -e "${BICyan} │  ${BICyan}DOMAIN    :  ${BIYellow}$(cat /etc/xray/domain)${NC}"
-echo -e "${BICyan} │  ${BICyan}RAM       :  ${BIYellow}$uram / $tram MB${NC}"
-echo -e "${BICyan} │  ${BICyan}IP VPS    :  ${BIYellow}$IPVPS${NC}"
-echo -e "${BICyan} │  ${BICyan}REBOOT    :  ${BIYellow}00:00 ( Jam 12 malam )${NC}"
-echo -e "${BICyan} │  ${BICyan}Telegram  :  ${BIYellow}t.me/fdlyvpn_ID${NC}"
-echo -e "${BICyan} └─────────────────────────────────────────────────────┘${NC}"
-echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "${BICyan} │  ${BIYellow}SSH         VMESS           VLESS          TROJAN $NC" 
-echo -e "${BICyan} │  ${Blue} $ssh1            $vma               $vla               $tra $NC" 
-echo -e "${BICyan} └─────────────────────────────────────────────────────┘${NC}" 
-echo -e "     ${BICyan} SSH ${NC}: $ressh"" ${BICyan} NGINX ${NC}: $resngx"" ${BICyan}  XRAY ${NC}: $resv2r"" ${BICyan} TROJAN ${NC}: $resv2r"
-echo -e "   ${BICyan}     STUNNEL ${NC}: $resst" "${BICyan} DROPBEAR ${NC}: $resdbr" "${BICyan} SSH-WS ${NC}: $ressshws"
-echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
-echo -e "${BICyan} │  ${BICyan}[${BIWhite}01${BICyan}] [${BIYellow}Menu${BICyan}] SSH WS    ${BICyan}[${BIWhite}08${BICyan}] [${BIYellow}Menu${BICyan}] CEK RUNNING      ${BICyan}│${NC}"
-echo -e "${BICyan} │  ${BICyan}[${BIWhite}02${BICyan}] [${BIYellow}Menu${BICyan}] XRAYS     ${BICyan}[${BIWhite}09${BICyan}] [${BIYellow}Menu${BICyan}] INSTALL UDP      ${BICyan}│${NC}"
-echo -e "${BICyan} │  ${BICyan}[${BIWhite}03${BICyan}] [${BIYellow}Menu${BICyan}] TROJAN    ${BICyan}[${BIWhite}10${BICyan}] [${BIYellow}Menu${BICyan}] INSTALL BOT      ${BICyan}│${NC}"
-echo -e "${BICyan} │  ${BICyan}[${BIWhite}04${BICyan}] [${BIYellow}Menu${BICyan}] TRIAL     ${BICyan}[${BIWhite}11${BICyan}] [${BIYellow}Menu${BICyan}] LOCKED SSH       ${BICyan}│${NC}"
-echo -e "${BICyan} │  ${BICyan}[${BIWhite}05${BICyan}] [${BIYellow}Menu${BICyan}] BACKUP    ${BICyan}[${BIWhite}12${BICyan}] [${BIYellow}Menu${BICyan}] UNLOCK SSH       ${BICyan}│${NC}"
-echo -e "${BICyan} │  ${BICyan}[${BIWhite}06${BICyan}] [${BIYellow}Menu${BICyan}] SETTINGS  ${BICyan}[${BIWhite}13${BICyan}] [${BIYellow}Menu${BICyan}] INFO VPS         ${BICyan}│${NC}"
-echo -e "${BICyan} │  ${BICyan}[${BIWhite}07${BICyan}] [${BIYellow}Menu${BICyan}] ADD-HOST  ${BICyan}[${BIWhite}14${BICyan}] [${BIYellow}Menu${BICyan}] UPDATE SCRIPT    ${BICyan}│${NC}"
-echo -e "${BICyan} └─────────────────────────────────────────────────────┘${NC}"
-echo -e "        ${BICyan}┌─────────────────────────────────────┐${NC}"
-echo -e "        ${BICyan}│$NC Version       : V1.01${NC}"
-echo -e "        ${BICyan}│$NC ${GREEN}User          :\033[1;36m $Name \e[0m"
-echo -e "        ${BICyan}│$NC Expired       : ${GREEN}$Exp $NC"
-echo -e "        ${BICyan}└─────────────────────────────────────┘${NC}"
-echo
+echo -e "${y} ┌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┐${NC}"
+echo -e "${y} │ ${fvs}                 Fvstore Tunneling                  ${y}│${NC}"
+echo -e "${y} └━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘${NC}"
+echo -e "${y} ┌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┐${NC}"
+echo -e "${y} │"
+echo -e "${y} │  ${BICyan}System OS :  ${BIYellow}$( cat /etc/os-release | grep -w PRETTY_NAME | sed 's/PRETTY_NAME//g' | sed 's/=//g' | sed 's/"//g' ) ( $( uname -m) )${NC}"
+echo -e "${y} │  ${BICyan}NS DOMAIN :  ${BIYellow}$(cat /root/nsdomain)${NC}"
+echo -e "${y} │  ${BICyan}DOMAIN    :  ${BIYellow}$(cat /etc/xray/domain)${NC}"
+echo -e "${y} │  ${BICyan}RAM       :  ${BIYellow}$uram MB / $tram MB${NC}"
+echo -e "${y} │  ${BICyan}IP VPS    :  ${BIYellow}$IPVPS${NC}"
+#echo -e "${y} │  ${BICyan}ISP VPS   :  ${BIYellow}$(cat /root/.ispvps)${NC}"
+echo -e "${y} │  ${BICyan}UPTIME    :  ${BIYellow}$SerOn${NC}"
+echo -e "${y} └━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘${NC}"
+echo -e "    ${BIYellow}SSH OVPN         VMESS             VLESS              TROJAN $NC" 
+echo -e "    ${Blue} $ssh1            $vma              $vla               $tra $NC" 
+echo -e "${y} ┌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┐${NC}"
+echo -e "${y} │  ${BICyan}[${BIWhite}01${BICyan}] [${BIYellow}Menu${BICyan}] SSH WS    ${BICyan}[${BIWhite}08${BICyan}] [${BIYellow}Menu${BICyan}] CEK RUNNING      ${y}│${NC}"
+echo -e "${y} │  ${BICyan}[${BIWhite}02${BICyan}] [${BIYellow}Menu${BICyan}] XRAY      ${BICyan}[${BIWhite}09${BICyan}] [${BIYellow}Menu${BICyan}] INSTALL UDP      ${y}│${NC}"
+echo -e "${y} │  ${BICyan}[${BIWhite}03${BICyan}] [${BIYellow}Menu${BICyan}] TROJAN    ${BICyan}[${BIWhite}10${BICyan}] [${BIYellow}Menu${BICyan}] INSTALL BOT      ${y}│${NC}"
+echo -e "${y} │  ${BICyan}[${BIWhite}04${BICyan}] [${BIYellow}Menu${BICyan}] TRIAL     ${BICyan}[${BIWhite}11${BICyan}] [${BIYellow}Menu${BICyan}] LOCKED SSH       ${y}│${NC}"
+echo -e "${y} │  ${BICyan}[${BIWhite}05${BICyan}] [${BIYellow}Menu${BICyan}] BACKUP    ${BICyan}[${BIWhite}12${BICyan}] [${BIYellow}Menu${BICyan}] UNLOCK SSH       ${y}│${NC}"
+echo -e "${y} │  ${BICyan}[${BIWhite}06${BICyan}] [${BIYellow}Menu${BICyan}] SETTINGS  ${BICyan}[${BIWhite}13${BICyan}] [${BIYellow}Menu${BICyan}] INFO VPS         ${y}│${NC}"
+echo -e "${y} │  ${BICyan}[${BIWhite}07${BICyan}] [${BIYellow}Menu${BICyan}] ADD-HOST  ${BICyan}[${BIWhite}14${BICyan}] [${BIYellow}Menu${BICyan}] UPDATE SCRIPT    ${y}│${NC}"
+echo -e "${y} └━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘${NC}"
+echo -e "        ${y}┌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┐${NC}"
+echo -e "        ${y}│${NC} Version       : V1.01${NC}"
+echo -e "        ${y}│${NC} User          : $username ${NC}"
+echo -e "        ${y}│${NC} Expired       : $exp $NC"
+echo -e "        ${y}└━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘${NC}"
+echo -e ""
 read -p " Select menu : " opt
 echo -e ""
 case $opt in
