@@ -4,10 +4,10 @@ REPO="https://raw.githubusercontent.com/ZvnStores/stores/main/"
 cd
 
 # Install Non TLS & NTLS
-wget ${REPO}sshws/nontls.sh && chmod +x nontls.sh && ./nontls
-wget ${REPO}sshws/ntls.sh && chmod +x ntls.sh && ./ntls
-rm -rf ntls.sh
-rm -rf nontls.sh
+#wget ${REPO}sshws/nontls.sh && chmod +x nontls.sh && ./nontls
+#wget ${REPO}sshws/ntls.sh && chmod +x ntls.sh && ./ntls
+#rm -rf ntls.sh
+#rm -rf nontls.sh
 
 #Install Script Websocket-SSH Python
 wget -O /usr/local/bin/ws-openssh ${REPO}sshws/openssh-socket.py
